@@ -7,15 +7,15 @@
 
 import Foundation
 
-struct Pinyin {
+public struct Pinyin {
     /// e.g. `chuang` or `yü`, preserving any diacritic marks for disambiguating readings.
-    let baseString: String
+    public let baseString: String
     /// e.g. `chuāng`.
-    let diacriticForm: String
+    public let diacriticForm: String
     /// e.g. `chuang1`.
-    let ipaForm: String
-    let tone: ToneMark
-    init(diacriticForm: String) {
+    public let ipaForm: String
+    public let tone: ToneMark
+    public init(diacriticForm: String) {
         self.baseString = diacriticForm.removingPinyinToneMarks()
         self.tone = diacriticForm.toneMark() ?? .neutral
         self.diacriticForm = diacriticForm
@@ -23,7 +23,7 @@ struct Pinyin {
     }
 }
 
-extension Pinyin {
+public extension Pinyin {
     @frozen
     enum ToneMark: String, CaseIterable {
         case first      = "\u{0304}"
@@ -33,7 +33,7 @@ extension Pinyin {
         /// Placed before syllable, not commonly used in Pinyin.
         case neutral    = "\u{00B7}"
         
-        var numericValue: Int {
+        public var numericValue: Int {
             switch self {
             case .first:    1
             case .second:   2
@@ -48,7 +48,7 @@ extension Pinyin {
     static let umlaut = "\u{0308}"
 }
 
-extension String {
+fileprivate extension String {
     /// Assumes Pinyin is written in common form, where there is one tone mark (not including umlauts) per character.
     @discardableResult
     func removingPinyinToneMarks() -> String {
